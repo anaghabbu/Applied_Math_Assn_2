@@ -85,7 +85,7 @@ function [x_root] = multi_newton_solver(fun,x_guess,solver_params)
     disp('Root is approx: ')
     disp(x_root)
     
-    [f_check, ~] = fun(x_root);
+    f_check = fun(x_root);
     disp('f(X_new) = ')
     disp(f_check)
 end
