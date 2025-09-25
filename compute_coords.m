@@ -8,5 +8,7 @@
 %vertex_coords_root: a column vector containing the (x,y) coordinates of every vertex
 % these coords satisfy all the kinematic constraints!
 function vertex_coords_root = compute_coords(vertex_coords_guess, leg_params, theta)
-%your code here
+
+    
+
 end

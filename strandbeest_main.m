@@ -60,19 +60,14 @@ function strandbeest_main()
     link_length_error_func(matrix_coords, leg_params);
     
     theta_in = 0.1;
-    %theta_in = linspace(0,1,10);
-    %for i = 1:10
-        %theta_in = theta_in + 0.1;
         
-        % Call function to find errors between current positions of vertex 2 and
-        % center of crank rotation and the fixed values of what they should be 
-        fixed_coord_error_func(matrix_coords, leg_params, theta_in);
+    % Call function to find errors between current positions of vertex 2 and
+    % center of crank rotation and the fixed values of what they should be 
+    fixed_coord_error_func(matrix_coords, leg_params, theta_in);
 
-        error_vector = @(vertex_coords) linkage_error_func(matrix_coords, leg_params, theta_in);
-        linkage_error_vector = error_vector(theta_in)
-
-    %end
-
+    error_vector = @(vertex_coords) linkage_error_func(matrix_coords, leg_params, theta_in);
+    linkage_error_vector = error_vector(theta_in);
+    root_of_vertex_coords = compute_coords(vertex_coords_guess, leg_params, theta, linkage_error_vector);
 end
 
 %Converts from the column vector form of the coordinates to a
