@@ -52,6 +52,8 @@ function [x_root] = multi_newton_solver(fun,x_guess,solver_params)
     
  
     if numerical_diff
+        'size of x_guess'
+        size(x_guess)
         fval = fun(x_guess);
         J = approximate_jacobian(fun, x_guess);
     else
@@ -65,6 +67,8 @@ function [x_root] = multi_newton_solver(fun,x_guess,solver_params)
         count = count + 1;
 
         if numerical_diff
+            'size of x_guess';
+            size(x_guess);
             fval = fun(x_guess);
             J = approximate_jacobian(fun, x_guess);
         else
@@ -73,8 +77,6 @@ function [x_root] = multi_newton_solver(fun,x_guess,solver_params)
     
         delta_x = -J\fval;
         x_guess = x_guess + delta_x;
-    
-  
         
         
     end

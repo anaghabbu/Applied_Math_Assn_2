@@ -25,7 +25,7 @@ function length_errors = link_length_error_func(matrix_coords, leg_params)
     % Iterate through all the linkages to extract variables needed for the
     % error equation
 
-    size(matrix_coords)
+    size(matrix_coords); % 7 2 atm
     for i = 1:leg_params.num_linkages
         A = leg_params.link_to_vertex_list(i, 1); % A represents one point associated with a linkage
         B = leg_params.link_to_vertex_list(i, 2); % B represents the second point associated with a linkage

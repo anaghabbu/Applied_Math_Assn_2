@@ -11,15 +11,15 @@ function test_part4()
     
     [x_root] = multi_newton_solver(@test_function01,x_guess,solver_params);
     
-    disp(x_root)
+    disp(x_root);
     f_root = test_function01(x_root);
-    disp(f_root)
+    disp(f_root);
     
     [x_root] = multi_newton_solver(@test_function02,x_guess,solver_params);
     
-    disp(x_root)
+    disp(x_root);
     f_root = test_function02(x_root);
-    disp(f_root)
+    disp(f_root);
     
     
     
@@ -30,7 +30,7 @@ function test_part4()
 
     traj_error(x_root)
 
-    run_simulation(x_root(1), x_root(2))
+    run_simulation(x_root(1), x_root(2));
 
 
 end

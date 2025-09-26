@@ -1,5 +1,12 @@
 function strandbeest_main()
 
+    solver_params = struct();
+    solver_params.dxtol = 1e-7;
+    solver_params.ftol = 1e-8;
+    solver_params.max_iter = 200;
+    solver_params.dxmax = 1e6;
+    solver_params.numerical_diff = 1e6;
+
 
     %initialize leg_params structure
     leg_params = struct();
@@ -65,45 +72,14 @@ function strandbeest_main()
     % center of crank rotation and the fixed values of what they should be 
     fixed_coord_error_func(matrix_coords, leg_params, theta_in);
 
-    error_vector = @(vertex_coords) linkage_error_func(matrix_coords, leg_params, theta_in);
-    linkage_error_vector = error_vector(theta_in);
-    root_of_vertex_coords = compute_coords(vertex_coords_guess, leg_params, theta, linkage_error_vector);
+    % iterate through the code below to get new vertex coordinate positions
+    % these coordinates will go into the visualization function
+    theta_in = theta_in + 0.1;
+    vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in);
+    
+    complete_vertex_coords = vertex_coords_root;
+
 end
 
-%Converts from the column vector form of the coordinates to a
-%friendlier matrix form
-%INPUTS:
-%coords_in = [x1;y1;x2;y2;...;xn;yn] (2n x 1 column vector)
-%OUTPUTS:
-%coords_out = [x1,y1;x2,y2;...;xn,yn] (n x 2 matrix)
-function coords_out = column_to_matrix(coords_in)
-    num_coords = length(coords_in);
-    coords_out = [coords_in(1:2:(num_coords-1)),coords_in(2:2:num_coords)];
-end
 
-%Converts from the matrix form of the coordinates back to the
-%original column vector form
-%INPUTS:
-%coords_in = [x1,y1;x2,y2;...;xn,yn] (n x 2 matrix)
-%OUTPUTS:
-%coords_out = [x1;y1;x2;y2;...;xn;yn] (2n x 1 column vector)
-function coords_out = matrix_to_column(coords_in)
-    num_coords = 2*size(coords_in,1);
-    coords_out = zeros(num_coords,1);
-    coords_out(1:2:(num_coords-1)) = coords_in(:,1);
-    coords_out(2:2:num_coords) = coords_in(:,2);
-end
 
-%Error function that encodes all necessary linkage constraints
-%INPUTS:
-%vertex_coords: a column vector containing the (x,y) coordinates of every vertex
-%leg_params: a struct containing the parameters that describe the linkage
-%theta: the current angle of the crank
-%OUTPUTS:
-%error_vec: a vector describing each constraint on the linkage
-% when error_vec is all zeros, the constraints are satisfied
-function error_vec = linkage_error_func(vertex_coords, leg_params, theta)
-distance_errors = link_length_error_func(vertex_coords, leg_params);
-coord_errors = fixed_coord_error_func(vertex_coords, leg_params, theta);
-error_vec = [distance_errors;coord_errors];
-end
