@@ -95,49 +95,7 @@ function strandbeest_main()
         drawnow;
 
     end
-% =======
-% >>>>>>> 28551fb612916203862b63cc951ba6db50b1c7c0
 
-    complete_vertex_coords = zeroes(10, 100);
-    count = 0;
-
-    for i = 0 : 100
-
-        count = count + 1;
-        theta_in = theta_in + 0.01;
-        vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in);
-
-        complete_vertex_coords(:, 1) = vertex_coords_root;
-    end
-
-    for j = 1 : 100
-
-        update_leg_drawing(complete_vertex_coords(:,j), leg_drawing, leg_params)
-    end
 end
 
-
-% get the vertex coords of the leg at theta: 0.1 by
-% using the compute coords function
-% 
-% put it into leg visualizer 
-%     update leg will then iterate through each "pair" of values to get linnkages
-%     it will then iterate through each x, y coord to get vertices
-% 
-% now there will be one leg position on the visualizer
-% 
-% to get more frames, use a for loop to iterate though theta values with computes coords and
-% then update leg within the for loop
-theta = .1;
-
-for i = 1:100
-     
-    vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in);
-    update_leg_drawing(vertex_coords_root, leg_drawing, leg_params)
-    theta = theta + 0.01
-end
-
-
-
-
-
+   
