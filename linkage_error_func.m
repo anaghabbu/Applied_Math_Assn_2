@@ -11,9 +11,9 @@ function error_vec = linkage_error_func(vertex_coords, leg_params, theta)
 
     distance_errors = link_length_error_func(vertex_coords, leg_params);
     coord_errors = fixed_coord_error_func(vertex_coords, leg_params, theta);
-    disp(distance_errors);
-    disp(coord_errors);
+    % disp(distance_errors);
+    % disp(coord_errors);
     error_vec = [distance_errors;coord_errors];
-    disp(error_vec);
+    % disp(error_vec);
 
 end

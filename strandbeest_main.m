@@ -5,7 +5,7 @@ function strandbeest_main()
     solver_params.ftol = 1e-8;
     solver_params.max_iter = 200;
     solver_params.dxmax = 1e6;
-    solver_params.numerical_diff = 1e6;
+    solver_params.numerical_diff = 1e-6;
 
 
     %initialize leg_params structure
@@ -66,7 +66,7 @@ function strandbeest_main()
     % Call function to find link length errors
     link_length_error_func(matrix_coords, leg_params);
     
-    theta_in = 0.1;
+    theta_in = 0;
         
     % Call function to find errors between current positions of vertex 2 and
     % center of crank rotation and the fixed values of what they should be 
@@ -74,12 +74,28 @@ function strandbeest_main()
 
     % iterate through the code below to get new vertex coordinate positions
     % these coordinates will go into the visualization function
-    theta_in = theta_in + 0.1;
-    vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in);
-    
-    complete_vertex_coords = vertex_coords_root;
+
+    figure(1);
+    hold on
+    leg_drawing = initialize_leg_drawing(leg_params);
+    complete_vertex_coords = zeros(14, 100);
+
+    update_leg_drawing(vertex_coords, leg_drawing, leg_params);
+    drawnow;
+
+    % vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in)
+    axis([-200,200,-200,200])
+    axis equal
+    for i = 1:1000
+
+        theta_in = theta_in + 0.3;
+        vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in);
+        complete_vertex_coords(:, i) = vertex_coords_root;
+        update_leg_drawing(complete_vertex_coords(:, i), leg_drawing, leg_params);
+        drawnow;
+
+    end
 
 end
 
-
-
+   
