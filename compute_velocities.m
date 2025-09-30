@@ -17,13 +17,11 @@ function dVdtheta = compute_velocities(vertex_coords, leg_params, theta)
 	F = @(V) link_length_error_func(column_to_matrix(V), leg_params); 
     	J = approximate_jacobian(F, vertex_coords);
 
-	F = @(V) link_length_error_func(V, leg_params); 
-    J = approximate_jacobian(F, vertex_coords);
 
 
     % Calculate derivatives for the crank tip
   	r = leg_params.crank_length; % length of the crank shaft noted in additional constraints
-    	odx1_dtheta = -r * sin(theta);
+    	dx1_dtheta = -r * sin(theta);
     	dy1_dtheta =  r * cos(theta);
 
     % Build M
@@ -48,14 +46,14 @@ function dVdtheta = compute_velocities(vertex_coords, leg_params, theta)
 
     % Step 6: Get tip velocity from vertex 7
     % Possible Code (idk if below works):
-    vX_tip = dVdtheta(13);
-    vY_tip = dVdtheta(14);
-    velocity_tip = [vX_tip; vY_tip]; % vector
+    vx_tip = dVdtheta(13);
+    vy_tip = dVdtheta(14);
+    velocity_tip = [vx_tip; vy_tip]; % vector
 
     % PLOT
 
     % Have vertex_coords(X) change for each theta iteration
-    quiver(vertex_coords(13), vertex_coords(14), vX_tip, vY_tip, 2) % scale of 2 
+    % quiver(vertex_coords(13), vertex_coords(14), vx_tip, vy_tip, 2); % scale of 2 
 
 
 

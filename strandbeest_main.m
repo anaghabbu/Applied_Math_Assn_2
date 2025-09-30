@@ -76,7 +76,12 @@ function strandbeest_main()
     % these coordinates will go into the visualization function
 
     figure(1);
+    clf;
     hold on
+    path_plot = plot(0,0,'k--');
+    tangent_plot = plot(0,0,'r');
+
+    
     leg_drawing = initialize_leg_drawing(leg_params);
     complete_vertex_coords = zeros(14, 100);
 
@@ -84,14 +89,22 @@ function strandbeest_main()
     drawnow;
 
     % vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in)
-    axis([-200,200,-200,200])
     axis equal
+    axis([-120,20,-100,60])
+    
     theta_list = [];
     vx_list = [];
     vy_list =[];
+
+    px_list = [];
+    py_list = [];
+
+    x = [];
+    y = [];
+
     for i = 1:1000
         
-        theta_in = theta_in + 0.3;
+        theta_in = theta_in + 0.03;
         vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in);
         complete_vertex_coords(:, i) = vertex_coords_root;
 
@@ -100,25 +113,53 @@ function strandbeest_main()
         vx_list(end+1) = Vertex_velocities(13);
         vy_list(end+1) = Vertex_velocities(14);
 
+        px_list(end+1) = vertex_coords_root(13);
+        py_list(end+1) = vertex_coords_root(14);
+
+        vx = Vertex_velocities(13);
+        vy = Vertex_velocities(14);
+
+        set(tangent_plot,'xdata',vertex_coords_root(13)+[0,vx],...
+            'ydata',vertex_coords_root(14)+[0,vy])
+        set(path_plot,'xdata',px_list,'ydata',py_list);
         update_leg_drawing(complete_vertex_coords(:, i), leg_drawing, leg_params);
         drawnow;
 
+        % Explicit numeric computation using function
+
+        delta = .01;
+        vertex_root1 = compute_coords(vertex_coords_root, solver_params, leg_params, theta_in + delta);
+        vertex_root2 = compute_coords(vertex_coords_root, solver_params, leg_params, theta_in - delta);
+
+        dv_dtheta = (vertex_root1 - vertex_root2) / (2*delta);
+
+        x(end+1) = dv_dtheta(13);
+        y(end+1) = dv_dtheta(14);
+
     end
 
-    
+  
 
     figure(2)
     subplot(2,1,1)
+
     hold on
-    plot(theta_list,vx_list);
+    plot(theta_list,vx_list,'k');
+    plot(theta_list, x,'r--');
+    xlim([0,2*pi]);
 
     subplot(2,1,2)
     hold on
-    plot(theta_list,vy_list);
-    % 
-    % title('xtip')
-    % plot(theta_plot, tip(:, 2))
-    % title('ytip')
+    plot(theta_list,vy_list,'k');
+    plot(theta_list, y,'r--');
+    xlim([0,2*pi]);
+
+    
+
+    
+ 
+
+
 end
 
    
