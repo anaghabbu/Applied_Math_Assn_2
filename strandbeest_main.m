@@ -86,16 +86,39 @@ function strandbeest_main()
     % vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in)
     axis([-200,200,-200,200])
     axis equal
+    theta_list = [];
+    vx_list = [];
+    vy_list =[];
     for i = 1:1000
-
+        
         theta_in = theta_in + 0.3;
         vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in);
         complete_vertex_coords(:, i) = vertex_coords_root;
+
+        theta_list(end+1) = theta_in;
+        Vertex_velocities = compute_velocities(vertex_coords_root, leg_params, theta_in);
+        vx_list(end+1) = Vertex_velocities(13);
+        vy_list(end+1) = Vertex_velocities(14);
+
         update_leg_drawing(complete_vertex_coords(:, i), leg_drawing, leg_params);
         drawnow;
 
     end
 
+    
+
+    figure(2)
+    subplot(2,1,1)
+    hold on
+    plot(theta_list,vx_list);
+
+    subplot(2,1,2)
+    hold on
+    plot(theta_list,vy_list);
+    % 
+    % title('xtip')
+    % plot(theta_plot, tip(:, 2))
+    % title('ytip')
 end
 
    
