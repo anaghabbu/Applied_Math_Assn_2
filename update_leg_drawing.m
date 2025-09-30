@@ -12,11 +12,15 @@ function update_leg_drawing(complete_vertex_coords, leg_drawing, leg_params, ite
    
     %iterate through each link, and update corresponding link plot
 
+
     % vertex_mat = column_to_matrix(complete_vertex_coords);
+
+    
+    count = 1;
 
     for linkage_index = 1:leg_params.num_linkages
         %linkage_index is the label of the current link
-        
+   
         %line_x and line_y should both be two element arrays containing
         %the x and y coordinates of the line segment describing the current link
         current_vertices = leg_params.link_to_vertex_list(linkage_index, :);
@@ -35,7 +39,14 @@ function update_leg_drawing(complete_vertex_coords, leg_drawing, leg_params, ite
 
         set(leg_drawing.linkages{linkage_index},'xdata',line_x,'ydata',line_y);
       
+
+        % line_x =  complete_vertex_coords(count, count + 2);
+        % line_y = complete_vertex_coords(count + 1, count + 3);
+        % set(leg_drawing.linkages{linkage_index},'xdata',line_x,'ydata',line_y);
+        % count = count + 2;
     end
+
+    count = 1;
 
     %iterate through each vertex, and update corresponding vertex plot
 
@@ -43,8 +54,14 @@ function update_leg_drawing(complete_vertex_coords, leg_drawing, leg_params, ite
     for vertex_index = 1:leg_params.num_vertices
 
         %vertex_index is the label of the current vertex
+
         %dot_x and dot_y should both be scalars
         %specifically the x and y coordinates of the corresponding vertex
+        dot_x = complete_vertex_coords(count);
+        dot_y = complete_vertex_coords(count + 1);
+        set(leg_drawing.vertices{vertex_index},'xdata',dot_x,'ydata',dot_y);
+        count = count + 2;
+    end
 
         % dot_x = complete_vertex_coords(count, iter);
         % count = count + 1;
