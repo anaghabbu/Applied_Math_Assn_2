@@ -91,7 +91,7 @@ function strandbeest_main()
         theta_in = theta_in + 0.3;
         vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in);
         complete_vertex_coords(:, i) = vertex_coords_root;
-        update_leg_drawing(complete_vertex_coords(:, i), leg_drawing, leg_params, i);
+        update_leg_drawing(complete_vertex_coords(:, i), leg_drawing, leg_params);
         drawnow;
 
     end
