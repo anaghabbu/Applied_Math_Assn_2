@@ -18,7 +18,7 @@ function dVdtheta = compute_velocities(vertex_coords, leg_params, theta)
 
     % Calculate derivatives for the crank tip
   	r = leg_params.crank_length; % length of the crank shaft noted in additional constraints
-    	dx1_dtheta = -r * sin(theta);
+    	odx1_dtheta = -r * sin(theta);
     	dy1_dtheta =  r * cos(theta);
 
     % Build M
