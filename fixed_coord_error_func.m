@@ -23,8 +23,6 @@ function coord_errors = fixed_coord_error_func(matrix_coords, leg_params, theta_
     % Extract vertex guesses from matrix
     vertex_1 = 1;
     vertex_2 = 2;
-    % vertex_1 = leg_params.link_to_vertex_list(1, 1); % extract vertex 2 from list of vertices
-    % vertex_2 = leg_params.link_to_vertex_list(2, 1); % extract vertex 2 from list of vertices
     x1_guess = matrix_coords(vertex_1, 1); 
     y1_guess = matrix_coords(vertex_1, 2);
     x2_guess = matrix_coords(vertex_2, 1);

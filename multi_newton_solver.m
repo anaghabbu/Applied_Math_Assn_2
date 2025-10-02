@@ -20,16 +20,6 @@
 %x: the estimate of the root computed by the function
 % exit_flag: an integer indicating whether or not the solver succeeded
 % 
-% 
-% x_guess = 3;
-% solver_params = struct();
-% solver_params.dxtol = 1e-7;
-% solver_params.ftol = 1e-8;
-% solver_params.max_iter = 200;
-% solver_params.dxmax = 1e6;
-% solver_params.numerical_diff = 1e6;
-% %[x_root,success_flag] = my_solver(f,x_guess,solver_params);
-
 
 function [x_root] = multi_newton_solver(fun,x_guess,solver_params)
     %unpack values from struct (if fields in struct have been set)
@@ -39,16 +29,6 @@ function [x_root] = multi_newton_solver(fun,x_guess,solver_params)
     max_iter = solver_params.max_iter;
     dxmax = solver_params.dxmax;
     numerical_diff =  solver_params.numerical_diff;
-    
-    % 
-    % [fval, J] = fun(x_guess);
-    % 
-    % if numerical_diff == true
-    %     J = approximate_jacobian(fun, x_guess)
-    % else
-    %     [f_val, J] = fun(x_guess);
-    % end
-    %x_guess = [1;2;3]; % initial guess
     
  
     if numerical_diff
@@ -68,21 +48,15 @@ function [x_root] = multi_newton_solver(fun,x_guess,solver_params)
         count = count + 1;
 
         if numerical_diff
-            % 'size of x_guess';
-            % size(x_guess)
-            fval = fun(x_guess);
-            % 'size fval'
-            % size(fval)
-            J = approximate_jacobian(fun, x_guess);
 
-         
+            fval = fun(x_guess);
+            J = approximate_jacobian(fun, x_guess);
         else
             [fval,J] = fun(x_guess);
         end
     
         delta_x = -J\fval;
         x_guess = x_guess + delta_x;
-        
         
     end
     

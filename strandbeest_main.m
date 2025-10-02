@@ -1,5 +1,5 @@
 function strandbeest_main()
-
+    %define solver parameters
     solver_params = struct();
     solver_params.dxtol = 1e-7;
     solver_params.ftol = 1e-8;
@@ -61,6 +61,7 @@ function strandbeest_main()
                     [ -50; -100]... %vertex 7 guess
                     ];
     
+    % convert vertex_coords to matrix form
     matrix_coords = column_to_matrix(vertex_coords);
     
     % Call function to find link length errors
@@ -81,14 +82,13 @@ function strandbeest_main()
     path_plot = plot(0,0,'k--');
     tangent_plot = plot(0,0,'r');
 
-    
+    %initialize visualization of strandbeest leg
     leg_drawing = initialize_leg_drawing(leg_params);
     complete_vertex_coords = zeros(14, 100);
 
     update_leg_drawing(vertex_coords, leg_drawing, leg_params);
     drawnow;
 
-    % vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in)
     axis equal
     axis([-120,20,-100,60])
     
@@ -102,17 +102,19 @@ function strandbeest_main()
     x = [];
     y = [];
 
+    %iterate through time (by changing theta) to plot the strandbeest 
     for i = 1:1000
         
         theta_in = theta_in + 0.03;
         vertex_coords_root = compute_coords(vertex_coords, solver_params, leg_params, theta_in);
         complete_vertex_coords(:, i) = vertex_coords_root;
-
+        
+        %store vertex velocities in a list
         theta_list(end+1) = theta_in;
         Vertex_velocities = compute_velocities(vertex_coords_root, leg_params, theta_in);
         vx_list(end+1) = Vertex_velocities(13);
         vy_list(end+1) = Vertex_velocities(14);
-
+        
         px_list(end+1) = vertex_coords_root(13);
         py_list(end+1) = vertex_coords_root(14);
 
@@ -153,12 +155,6 @@ function strandbeest_main()
     plot(theta_list,vy_list,'k');
     plot(theta_list, y,'r--');
     xlim([0,2*pi]);
-
-    
-
-    
- 
-
 
 end
 
